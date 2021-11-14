@@ -1,10 +1,22 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+<%@ page import="java.util.Locale" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>YOUR NAME Grocery Order List</title>
+<style type="text/css" media="screen">
+
+	table{
+	border-collapse:collapse;
+	border:1px solid #000000;
+	}
+	
+	table td{
+	border:1px solid #000000;
+	}
+	</style>
 </head>
 <body>
 
@@ -16,12 +28,14 @@ String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
 String uid = "SA";
 String pw = "YourStrong@Passw0rd";
 
+Connection con = null;
+Locale.setDefault(Locale.US);
 
 try {
 
-    Connection con = DriverManager.getConnection(url, uid, pw);
+    con = DriverManager.getConnection(url, uid, pw);
 
-	String sql = "SELECT O.orderId, O.orderDate,C.customerId, C.firstName, O.totalAmount FROM ordersummary O JOIN customer C on O.customerId = C.customerId";
+	String sql = "SELECT O.orderId, O.orderDate,C.customerId, CONCAT(C.firstName,' ', C.lastName) AS cname, O.totalAmount FROM ordersummary O JOIN customer C on O.customerId = C.customerId";
 	PreparedStatement pstmt = con.prepareStatement(sql);
     ResultSet rst = pstmt.executeQuery();	
 	out.println("<table><tr><th>OrderId</th><th>Order Date</th><th>Customer Id</th><th>Customer Name</th><th>Total Amount</th></tr>");
@@ -31,7 +45,7 @@ try {
 
 		NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 		out.println("<tr><td>"+rst.getInt(1)+"</td>"+"<td>"+rst.getDate(2)+"<td>"+rst.getInt(3)+"</td>"+"<td>"+rst.getString(4)+"<td>"+currFormat.format(rst.getBigDecimal(5))+"</td></tr>");
-	
+	    
 	
 	
 	String sql2 = "SELECT OP.productId, OP.quantity, OP.price FROM orderproduct OP JOIN ordersummary O on OP.orderId = O.orderId WHERE OP.orderId = ? ";
@@ -49,6 +63,7 @@ try {
 catch (SQLException ex) 
 { 	out.println(ex); 
 }
+con.close();
 
 %>
 
