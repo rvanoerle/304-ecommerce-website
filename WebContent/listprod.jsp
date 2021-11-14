@@ -80,9 +80,7 @@
 	// Useful code for formatting currency values:
 	// NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 	// out.println(currFormat.format(5.0);	// Prints $5.00
-		}else{
-				out.print("The product searched for is currently unavailable");
-		}
+		
 	}
 	catch(SQLException ex){
 		out.println(ex);
