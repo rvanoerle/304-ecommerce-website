@@ -56,7 +56,7 @@
 		}
 		//Execute query
 		sql = pstmt.toString();
-		out.println("<h2>Sql query: "+sql+"</h2>");
+		
 		NumberFormat currencyFor = NumberFormat.getCurrencyInstance();
 		out.print("<table><tr><th> Product Name </th><th> Product Price</th></tr>");
 		// Print out the ResultSet
@@ -75,11 +75,9 @@
 			out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td>"+productName+"</td><td>"+formatPrice+"</td></tr>");
 				
 		}
+		out.print("</table>");
 	// Close connection
-
-	// Useful code for formatting currency values:
-	// NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-	// out.println(currFormat.format(5.0);	// Prints $5.00
+	con.close();
 		
 	}
 	catch(SQLException ex){
