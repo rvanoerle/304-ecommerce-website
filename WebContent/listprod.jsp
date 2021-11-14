@@ -5,9 +5,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YOUR NAME Grocery</title>
+<title>Grant's Glorious Grocery Grocery</title>
 </head>
 <body>
+<body style="background-color:#90EE90;"></body>
 
 <h1>Search for the products you want to buy:</h1>
 

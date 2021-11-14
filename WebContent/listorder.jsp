@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YOUR NAME Grocery Order List</title>
+<title>Grant's Glorious Order List</title>
 <style type="text/css" media="screen">
 
 	table{
@@ -19,8 +19,11 @@
 	</style>
 </head>
 <body>
+<body style="background-color:#90EE90;"></body>
+	
+	
+	<h1 style="color:blue;"> <u>Grant's Glorious Grocery Order List</u></h1>
 
-<h1>Order List</h1>
 
 <%
 
