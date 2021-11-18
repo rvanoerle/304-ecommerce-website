@@ -8,10 +8,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>YOUR NAME Grocery Order Processing</title>
+<title>Grant's Glorious Grocery Order Processing</title>
 </head>
 <body>
-
+<body style="background-color:#90EE90;"></body>
 <% 
 String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
 String uid = "SA";

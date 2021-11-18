@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Ray's Grocery CheckOut Line</title>
+<title>Grant's Glorious Grocery CheckOut Line</title>
 </head>
 <body>
 
@@ -13,5 +13,6 @@
 </form>
 
 </body>
+<body style="background-color:#90EE90;"></body>
 </html>
 

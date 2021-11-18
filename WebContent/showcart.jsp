@@ -10,6 +10,7 @@
 <title>Your Shopping Cart</title>
 </head>
 <body>
+<body style="background-color:#90EE90;"></body>	
 
 <%
 // Get the current list of products
