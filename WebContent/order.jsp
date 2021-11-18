@@ -4,6 +4,8 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.util.Date" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <!DOCTYPE html>
 <html>
@@ -37,6 +39,7 @@ try(Connection con = DriverManager.getConnection(url,uid,pw);){
 		PreparedStatement insertPstmt = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);			
 		insertPstmt.setInt(1,customerId);
 		insertPstmt.setDouble(2,0.0);
+
 		
 		insertPstmt.executeUpdate();
 		ResultSet keys = insertPstmt.getGeneratedKeys();
@@ -65,7 +68,8 @@ try(Connection con = DriverManager.getConnection(url,uid,pw);){
 			double currentTotal = pr * qty;
 			String formatCurrentTotal = currencyFor.format(currentTotal);
 			totalAmount += currentTotal;
-				
+			
+			
 			out.print("<tr><td>"+productId+"</td><td>"+productName +"</td><td>"+qty+"</td><td>"+formatPrice+"</td><td>"+formatCurrentTotal+"</td></tr>");
 
 			// Insert each item into OrderProduct table using OrderId from previous INSERT
@@ -80,14 +84,18 @@ try(Connection con = DriverManager.getConnection(url,uid,pw);){
 
 		
 		}
+		
 		String formatTotalAmount = currencyFor.format(totalAmount);
 		out.print("<tr><td> Order Total: "+formatTotalAmount+"</td></tr>");
 		// Update total amount for order record
-		String updateTotal = "UPDATE ordersummary SET totalAmount = ? WHERE orderId = ?";
+		String updateTotal = "UPDATE ordersummary SET totalAmount = ?,orderDate = ? WHERE orderId = ?";
 		PreparedStatement pstmtUpdateTotal = con.prepareStatement(updateTotal);
 		pstmtUpdateTotal.setDouble(1, totalAmount);
-		pstmtUpdateTotal.setInt(2, orderId);
+		pstmtUpdateTotal.setDate(2,new java.sql.Date(System.currentTimeMillis()));
+		pstmtUpdateTotal.setInt(3, orderId);
 		pstmtUpdateTotal.executeUpdate();
+
+
 
 		out.print("</table>");
 		out.print("<h1>Order completed. Will be shipped soon...</h1>");
