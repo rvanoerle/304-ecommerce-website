@@ -22,7 +22,7 @@
 <body style="background-color:#90EE90;"></body>
 	
 	
-	<h1 style="color:blue;"> <u>Grant's Glorious Grocery Order List</u></h1>
+	<h1 style="color:blue;"> <u>Grant's Glorious Grocer Order List</u></h1>
 
 
 <%
@@ -60,33 +60,17 @@ try {
 			out.println("<th>Product Id</th> <th>Quantity</th> <th>Price</th></tr>");
 			out.println("<tr><td>"+rst2.getInt(1)+"</td>"+"<td>"+rst2.getInt(2)+"<td>"+rst2.getBigDecimal(3)+"</td></tr>");
         }
+	  
     } 
 	out.println("</table>");
-}
-catch (SQLException ex) 
+
+	con.close();
+}catch (SQLException ex) 
 { 	out.println(ex); 
 }
-con.close();
+
 
 %>
 
 </body>
 </html>
-//Note: Forces loading of SQL Server driver
-//Useful code for formatting currency values:
-// NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-// out.println(currFormat.format(5.0);  // Prints $5.00
-
-// Make connection
-
-// Write query to retrieve all order summary records
-
-// For each order in the ResultSet
-
-	// Print out the order summary information
-	// Write a query to retrieve the products in the order
-	//   - Use a PreparedStatement as will repeat this query many times
-	// For each product in the order
-		// Write out product information 
-
-// Close connection

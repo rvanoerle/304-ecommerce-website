@@ -25,12 +25,15 @@ HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Obje
 // Make connection
 try(Connection con = DriverManager.getConnection(url,uid,pw);){
 // Determine if valid customer id was entered
+  
 	String sql = "SELECT * FROM customer WHERE customerId = ?";
 	PreparedStatement pstmt = con.prepareStatement(sql);
 	Integer customerId = Integer.valueOf(custId);
 	pstmt.setInt(1,customerId);
 	ResultSet rst = pstmt.executeQuery();
-
+  
+	
+  
 // Determine if there are products in the shopping cart
 // If either are not true, display an error message
 	if(rst.next() & productList != null){
@@ -147,8 +150,8 @@ con.close();
 
 // Clear cart if order placed successfully
 }
-catch(SQLException e){
-	out.println(e);
+catch(Exception e ){
+	out.println("Invalid customer id. Go back to previous page and try again.");
 }
 %>
 </BODY>
