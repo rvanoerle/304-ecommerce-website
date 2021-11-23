@@ -32,7 +32,8 @@
     // String productId = request.getParameter("id");
 	String id = request.getParameter("id");
    
-    try(Connection con = DriverManager.getConnection(url,uid,pw);){
+    try(
+		Connection con = DriverManager.getConnection(url,uid,pw);){
         PreparedStatement pstmt = null;
 		ResultSet rst = null;
 

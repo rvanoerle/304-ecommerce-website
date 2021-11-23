@@ -7,7 +7,8 @@
 
 <div style="margin:0 auto;text-align:center;display:inline">
 
-<h3>Please Login to System</h3>
+<h3>Please Login to System or Create an Account.</h3>
+<body style="background-color:#0066ff;"></body>
 
 <%
 // Print prior error login message if present
@@ -16,7 +17,7 @@ if (session.getAttribute("loginMessage") != null)
 %>
 
 <br>
-<form name="MyForm" method=post action="validateLogin.jsp">
+<form name="MyForm" method=get >
 <table style="display:inline">
 <tr>
 	<td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Username:</font></div></td>
@@ -28,7 +29,10 @@ if (session.getAttribute("loginMessage") != null)
 </tr>
 </table>
 <br/>
-<input class="submit" type="submit" name="Submit2" value="Log In">
+
+<button type="submit" formaction="validateLogin.jsp">Login</button>
+<button type="submit" formaction="createAccount.jsp">Create Account</button>
+
 </form>
 
 </div>
