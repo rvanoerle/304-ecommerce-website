@@ -48,8 +48,9 @@
 		NumberFormat currencyFor = NumberFormat.getCurrencyInstance();
 
 		// Print out the ResultSet
+       
 		while(rst.next()){
-    
+       
 			int productId = rst.getInt(1);
 			String productName = rst.getString(2);
 			int categoryId = rst.getInt(3);
@@ -62,7 +63,7 @@
 			String productNameAdjusted = java.net.URLEncoder.encode(productName,"UTF-8").replace("+","%20");
 			String addCart = "addcart.jsp?id="+productId+"&name="+productNameAdjusted+"&price="+productPrice;
             out.println("<table>");
-            out.println("<td><tr>"+productImageURL+"</tr></td>");
+            //out.println("<td><tr>"+productImageURL+"</tr></td>");
             //nead to fix the productImageUrl
             if(productImageURL != null)
                 out.println("<tr><td><img src ="+productImageURL+" style='float:left'></td></tr>");
@@ -70,12 +71,13 @@
                 out.println("<tr><td><img src ='./img/istockphoto.jpg' width='300' height='300' style='float:left'></td></tr>");
                  out.println("<tr><td> Sorry no photo of item available.</td></tr>");
             }
-            out.println("<tr><td> ID: "+id+"</td></tr>");
+            out.println("<tr><td><b> Product ID: </b>"+id+"</td></tr>");
 		    out.print("<tr><td><th> Product Name </th><th> Product Price</th></td></tr>");
 			out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td>"+productName+"</a></td><td>"+formatPrice+"</td></tr>");
 				
 		}
         out.print("</table>");
+       
 	// Close connection
 
 	// Useful code for formatting currency values:
@@ -95,8 +97,7 @@
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
 		
 // TODO: Add links to Add to Cart and Continue Shopping
-//String addCart = "addcart.jsp?id="+productId+"&name="+productNameAdjusted+"&price="+productPrice;
-//out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td><a href="+productPage+">"+productName+"</a></td><td>"+formatPrice+"</td></tr>");
+
 %>
 <h2><a href="listprod.jsp">Continue Shopping</a></h2>
 </body>
