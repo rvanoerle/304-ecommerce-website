@@ -57,9 +57,9 @@
 		}
 		//Execute query
 		sql = pstmt.toString();
-		out.println("<h2>Sql query: "+sql+"</h2>");
+		//out.println("<h2>Sql query: "+sql+"</h2>");
 		NumberFormat currencyFor = NumberFormat.getCurrencyInstance();
-		out.print("<table><tr><th> Product Name </th><th> Product Price</th></tr>");
+		out.print("<table><tr><th>     </th><th>Product Name </th><th> Product Price</th></tr>");
 		// Print out the ResultSet
 		while(rst.next()){
 			int productId = rst.getInt(1);
@@ -72,8 +72,9 @@
 			String productNameAdjusted = java.net.URLEncoder.encode(productName,"UTF-8").replace("+","%20");
 			// addcart.jsp?id=productId&name=productName&price=productPrice
 			String addCart = "addcart.jsp?id="+productId+"&name="+productNameAdjusted+"&price="+productPrice;
+			String productPage = "product.jsp?id="+productId;
 			
-			out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td>"+productName+"</td><td>"+formatPrice+"</td></tr>");
+			out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td><a href="+productPage+">"+productName+"</a></td><td>"+formatPrice+"</td></tr>");
 				
 		}
 	// Close connection
@@ -81,7 +82,7 @@
 	// Useful code for formatting currency values:
 	// NumberFormat currFormat = NumberFormat.getCurrencyInstance();
 	// out.println(currFormat.format(5.0);	// Prints $5.00
-	
+	con.close();
 	}
 	catch(SQLException ex){
 		out.println(ex);
