@@ -1,18 +1,20 @@
-%@ page language="java" import="java.io.*,java.sql.*"%>
-<%@ include file="./../jdbc.jsp" %>
+<%@ page language="java" import="java.io.*,java.sql.*"%>
+<%@ include file="jdbc.jsp" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.*" %>
 <%
 	boolean authenticatedUser = false;
 	session = request.getSession(true);
+
 	try
 	{
 		authenticatedUser = validateLogin(out,request,session);
 	}
 	catch(IOException e)
 	{	System.err.println(e); }
+
 	if(authenticatedUser)
-		response.sendRedirect("./../shop.html");		// Successful login
+		response.sendRedirect("index.jsp");		// Successful login
 	else
 		response.sendRedirect("login.jsp");		// Failed login - redirect back to login page with a message 
 %>
@@ -26,49 +28,52 @@
 		String pw = "YourStrong@Passw0rd";
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		password = password.toLowerCase().trim();
 		boolean retStr = false;
-		String pass = "";
-		String user = "";
-		//if(username == null || password == null)
-		//		return false;
-		//if((username.length() == 0) || (password.length() == 0))
-		//		return false;
-		String query = "Select userid,password from customer where userid like '%"+username+"%'";
-		try {
-			Connection con = DriverManager.getConnection(url,uid,pw);
-        	//PreparedStatement pstmt = con.prepareStatement(query);
-			//pstmt.setString(1, username);
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery(query);
-			//ResultSet rst = pstmt.executeQuery();
-			int cols = rst.getMetaData().getColumnCount();
-			out.println(cols);
-			while(rst.next()) {
-                user = rst.getString(1); 
-				pass = rst.getString(2).toLowerCase().trim();
-            }
-			if(pass.equals(password))
-				retStr = true;
-			else{
-				session.setAttribute("loginMessage","Invalid password, try again."); 
+
+		if(username == null || password == null)
 				return false;
-			}	
-			con.close();
+		if((username.length() == 0) || (password.length() == 0))
+				return false;
+		String sql1 = "Select userid,password from customer where userid like '?'";
+		ArrayList<String[]> users = new ArrayList<String[]>();
+		try 
+		{
+			Connection con = DriverManager.getConnection(url,username,password);{
+        	PreparedStatement pstmt = con.prepareStatement(sql1);
+			pstmt.setString(1, username);
+			ResultSet rst = pstmt.executeQuery();
+			
+			// if we found a userName we will return its password.
+			String pass = "";
+			while (rst.next()) {
+                String curr = (rst.getString(i + 1)); // Get the UserName
+				pass = (rst.getString(i + 2));
+				String[] user = new String[2];
+				user[0] = curr;
+				user[1] = pass; 		// to return just the password, we can make this method just return the password and then just check the password with the one entered from the user.
+                users.add(user);
+            }
+			if(pass.equals(username))
+				retStr = true;
+			else 
+				retStr = false;	
 		} 
-		catch (Exception ex) {
+		catch (SQLException ex) {
 			out.println(ex);
-			session.setAttribute("loginMessage","Error occured while validating account ."+ex);
 		}
+		finally
+		{
+			closeConnection();
+		}	
 		
-		
-		if(retStr){	
-			session.removeAttribute("loginMessage");
+		if(retStr)
+		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);
 		}
 		else
-			session.setAttribute("loginMessage",("Incorrect username/password.\n Your pass is "+username+":"+pass));
+			session.setAttribute("loginMessage","Could not connect to the system using that username/password.");
+
 		return retStr;
-	
 	}
 %>
+
