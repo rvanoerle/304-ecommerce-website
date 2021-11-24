@@ -20,18 +20,13 @@ if (session.getAttribute("loginMessage") != null)
 <form name="MyForm" method=get >
 <table style="display:inline">
 <tr>
-	<td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Username:</font></div></td>
-	<td><input type="text" name="username"  size=10 maxlength=10></td>
-</tr>
-<tr>
-	<td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Password:</font></div></td>
-	<td><input type="password" name="password" size=10 maxlength="10"></td>
+	<td><div align="right"><font face="Arial, Helvetica, sans-serif" size="2">Query :</font></div></td>
+	<td><input type="text" name="query"  size=60 maxlength=80></td>
 </tr>
 </table>
 <br/>
 
-<button type="submit" formaction="validateLogin.jsp">Login</button>
-<button type="submit" formaction="createAccount.jsp">Create Account</button>
+<button type="submit" formaction="query.jsp">Run</button>
 
 </form>
 
@@ -39,4 +34,3 @@ if (session.getAttribute("loginMessage") != null)
 
 </body>
 </html>
-

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>Grant's Glorious Grocer Main Page</title>
+        <title>Grant's Glorious Grocer</title>
 </head>
 <body>
 <body style="background-color:#90EE90;"></body>
+<h4 align = "right"><p>Logged in as : </p> <% session.getAttribut(authenticatedUser)%></h4>
 <h1 align ="center" style="color:blue;font-size:40px">Welcome to Grant's Glorious Grocer</h1>
 <center><img src="grocerphoto.jpg" alt="pic" ></center>
 
-<h2 align="center"><a href="login.jsp">Login</a></h2>
+<h2 align="center"><a href="./login/login.jsp">Login</a></h2>
 
 <h2 align="center"><a href="listprod.jsp">Begin Shopping</a></h2>
 
@@ -22,7 +23,11 @@
 
 <h2 align="center"><a href="logout.jsp">Log out</a></h2>
 
+<h2 align="center"><a href="./login/executeQuery.jsp">Execute Query</a></h2>
+
 </body>
 </head>
+
+
 
 
