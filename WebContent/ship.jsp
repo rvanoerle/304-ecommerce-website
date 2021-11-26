@@ -37,7 +37,7 @@
 		ResultSet rst = pstmt.executeQuery();
 		
 		//if there are products with that orderid, meaning orderid would be valid
-		if(rst.next()){
+		if(rst.isBeforeFirst() ) {
 			//out.println(" orderId "+orderId);
 			out.print("<table><tr><th></th><th> </th><th></th><th></th><th></th></tr>");
 			boolean sufficient = true;
@@ -47,7 +47,7 @@
 				int inventory = rst.getInt(3);
 				int newInventory = inventory - quantity;
 				
-				if(newInventory > 0){
+				if(newInventory >= 0){
 					String sqlUpdate = "UPDATE productinventory SET quantity= ? WHERE productId = ?";
 					PreparedStatement pstmtUpdate = con.prepareStatement(sqlUpdate);
 					pstmtUpdate.setInt(1,newInventory);
@@ -70,7 +70,7 @@
 			}
 			
 		}else{
-			out.println("not a valid order");
+			out.println("<h2>Not a valid order</h2>");
 		}
 		
 		con.setAutoCommit(true); //turn back on auto commit
