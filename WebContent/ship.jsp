@@ -5,6 +5,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.util.Locale" %>
 <%@ include file="jdbc.jsp" %>
 
 <html>
@@ -20,9 +21,12 @@
 	String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
 	String uid = "SA";
 	String pw = "YourStrong@Passw0rd";
+
+	Locale.setDefault(Locale.US);
 	// Get customer id !! still need to do this
 	String ordId = request.getParameter("orderId"); //get order id
 	int orderId = Integer.valueOf(ordId);
+
 	
 	out.println("<h2>Order Id:  "+ ordId+"</h2>");
  
@@ -63,6 +67,27 @@
 			}
 			out.print("</table>");
 			if(sufficient == true){
+				
+				String insertSql = "INSERT shipment (shipmentDate,shipmentDesc,warehouseId) VALUES (?,?,?)";
+				PreparedStatement insertPstmt = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+				String s = "Shipment contains product(s) from order  #" +orderId;
+				insertPstmt.setDate(1,new java.sql.Date(System.currentTimeMillis()));
+				insertPstmt.setString(2,s);
+				insertPstmt.setInt(3,1);
+                
+				insertPstmt.executeUpdate();
+				ResultSet keys = insertPstmt.getGeneratedKeys();
+				keys.next();
+		        int shipmentId = keys.getInt(1);
+				String sql2 = "SELECT * FROM shipment";
+	            PreparedStatement pstmt2 = con.prepareStatement(sql2);
+                ResultSet rst2 = pstmt2.executeQuery();	
+				
+					while (rst2.next()){
+						out.println("<tr><td><h2>ShipmentId: "+ rst2.getInt(1) + "</h2></td><td><h2>Date: "+rst2.getDate(2)+"</h2></td><td><h2>Description: "+rst2.getString(3) +"</h2></td><td><h2>WarehouseId: "+rst2.getInt(4) +"</h2></td></tr>");
+						
+					}
+	
 				con.commit();
 				out.println("<h2>Shipment succesfully proccesed.</h2>");
 			}else{
@@ -75,6 +100,7 @@
 		
 		con.setAutoCommit(true); //turn back on auto commit
 	}catch(SQLException ex){
+		out.println(ex);
 		out.println("Invalid orderid or doesn't exist.");
 	}
 	// TODO: Retrieve all items in order with given id
