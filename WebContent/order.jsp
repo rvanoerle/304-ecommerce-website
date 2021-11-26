@@ -119,6 +119,7 @@ catch(Exception e ){
 	out.println("Invalid customer id. Go back to previous page and try again.");
 }
 %>
+<h2><a href="shop.html">Back to Main Page</a></h2>
 </BODY>
 </HTML>
 

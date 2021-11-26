@@ -12,6 +12,7 @@
 <title>Grant's Grocery Shipment Processing</title>
 </head>
 <body>
+<body style="background-color:#90EE90;"></body>
         
 <%@ include file="header.jsp" %>
 
@@ -23,7 +24,7 @@
 	String ordId = request.getParameter("orderId"); //get order id
 	int orderId = Integer.valueOf(ordId);
 	
-	//out.println("orderId "+ ordId);
+	out.println("<h2>Order Id:  "+ ordId+"</h2>");
  
 	try(Connection con = DriverManager.getConnection(url,uid,pw);){         
 		// TODO: Check if valid order id //haven't checked if valid
@@ -34,11 +35,10 @@
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setInt(1,orderId);
 		ResultSet rst = pstmt.executeQuery();
-		con.commit();
+		
 		//if there are products with that orderid, meaning orderid would be valid
 		if(rst.next()){
 			//out.println(" orderId "+orderId);
-
 			out.print("<table><tr><th></th><th> </th><th></th><th></th><th></th></tr>");
 			boolean sufficient = true;
 			while(rst.next()){
@@ -54,31 +54,28 @@
 					pstmtUpdate.setInt(2,productId);
 					pstmtUpdate.executeUpdate();
 					out.println("<tr><td><h2>Ordered Product: "+ productId + "</h2></td><td><h2>Quantity: "+ quantity+"</h2></td><td><h2>Previous Inventory: "+inventory +"</h2></td><td><h2>New Inventory: "+newInventory +"</h2></td></tr>");
-					//stmt.execute("UPDATE productinventory SET quantity= "+newInventory+" WHERE productId = "+productId);
+					stmt.execute("UPDATE productinventory SET quantity= "+newInventory+" WHERE productId = "+productId);
 				}else{
 					sufficient = false;
 					out.println("<tr><h2> Shipment not done. Insufficient inventory for product id: "+productId+" </h2></tr>");
 					//con.rollback();
 				}
 			}
+			out.print("</table>");
 			if(sufficient == true){
 				con.commit();
-				out.println("<h2>Order executed Successfully.</h2>");
-
+				out.println("<h2>Shipment succesfully proccesed.</h2>");
 			}else{
 				con.rollback();
 			}
-
-			out.print("</table>");
+			
 		}else{
 			out.println("not a valid order");
 		}
-
 		
 		con.setAutoCommit(true); //turn back on auto commit
 	}catch(SQLException ex){
 		out.println("Invalid orderid or doesn't exist.");
-
 	}
 	// TODO: Retrieve all items in order with given id
 	// TODO: Create a new shipment record.
