@@ -31,7 +31,7 @@
 		//retrieves all items with given id
 		Statement stmt = con.createStatement();
 		con.setAutoCommit(false); //turn off auto commit
-		String sql = "SELECT OP.productId, OP.quantity AS orderQty, PI.quantity as Inventory FROM orderproduct OP JOIN productinventory PI ON OP.productid = PI.productid WHERE OP.orderId = ? ";
+		String sql = "SELECT OP.productId, OP.quantity AS orderQty, PI.quantity as Inventory FROM orderproduct OP JOIN productinventory PI ON OP.productid = PI.productid WHERE OP.orderId = ? AND PI.wareHouseId =1 ";
 		PreparedStatement pstmt = con.prepareStatement(sql);
 		pstmt.setInt(1,orderId);
 		ResultSet rst = pstmt.executeQuery();
