@@ -38,6 +38,7 @@
 	// Use it to build a query and print out the resultset.  Make sure to use PreparedStatement!
 	try(Connection con = DriverManager.getConnection(url,uid,pw);){
 		String sql = "SELECT productId, productName, categoryId, productDesc, productPrice FROM product";
+		String sql2 = "select sum(quantity) from productinventory where productId = ? group by warehouseId;";
 		boolean hasProduct = name != null && !name.equals("");
 
 		
@@ -59,7 +60,7 @@
 		sql = pstmt.toString();
 		//out.println("<h2>Sql query: "+sql+"</h2>");
 		NumberFormat currencyFor = NumberFormat.getCurrencyInstance();
-		out.print("<table><tr><th>     </th><th>Product Name </th><th> Product Price</th></tr>");
+		out.print("<table><tr><th>     </th><th>Product Name </th><th> Product Price</th><th>Inventory Amount</th></tr>");
 		// Print out the ResultSet
 		while(rst.next()){
 			int productId = rst.getInt(1);
@@ -67,6 +68,11 @@
 			int categoryId = rst.getInt(3);
 			String productDesc = rst.getString(4);
 			Double productPrice = rst.getDouble(5);
+			PreparedStatement pstmt2 = con.prepareStatement(sql2);
+			pstmt2.setInt(1,productId);
+			ResultSet rs = pstmt2.executeQuery();
+			int inventory = 0;
+			if(rs.next()) inventory = rs.getInt(1);
 			String formatPrice = currencyFor.format(productPrice);
 			// For each product create a link of the form
 			String productNameAdjusted = java.net.URLEncoder.encode(productName,"UTF-8").replace("+","%20");
@@ -74,7 +80,7 @@
 			String addCart = "addcart.jsp?id="+productId+"&name="+productNameAdjusted+"&price="+productPrice;
 			String productPage = "product.jsp?id="+productId;
 			
-			out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td><a href="+productPage+">"+productName+"</a></td><td>"+formatPrice+"</td></tr>");
+			out.println("<tr><td><a href="+addCart+">Add to cart</a></td><td><a href="+productPage+">"+productName+"</a></td><td>"+formatPrice+"</td><td>"+inventory+"</td></tr>");
 				
 		}
 	// Close connection
