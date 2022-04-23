@@ -60,7 +60,7 @@
 		sql = pstmt.toString();
 		//out.println("<h2>Sql query: "+sql+"</h2>");
 		NumberFormat currencyFor = NumberFormat.getCurrencyInstance();
-		out.print("<table><tr><th>     </th><th>Product Name </th><th> Product Price</th><th>Inventory Amount</th></tr>");
+		out.print("<table><tr><th>     </th><th>Product Name </th><th> Product Price</th><th>Inventory</th></tr>");
 		// Print out the ResultSet
 		while(rst.next()){
 			int productId = rst.getInt(1);
